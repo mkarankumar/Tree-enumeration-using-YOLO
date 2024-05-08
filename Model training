@@ -1,0 +1,44 @@
+# install unrar
+# Set home directory
+data_set= "C:\Users\Kishore M\Desktop\Tree enumeration using YOLO\dataest\train"
+
+# Import necessary libraries
+from ultralytics import YOLO
+
+# Train YOLOv5 model
+model = YOLO("yolov5m.pt")  # Assuming YOLOv5 model is used
+model.train(data=f"{data_set}/data.yaml", epochs=120, imgsz=640, augment=True, conf=0.25, iou=0.6)
+
+# Display an image (replace path with actual image path)
+from IPython.display import Image
+Image(filename="/content/your_image.jpg", width=1000)  # Replace "your_image.jpg" with actual image file
+
+# Perform inference on an image
+yolo task=detect mode=predict model=/content/runs/detect/train/weights/best.pt source=/content/bp_262118_4_174545_4_19_jpg.rf.e13b958d6de09b3c22b83af535d6649b.jpg conf=0.1
+
+# Display the result of inference (replace path with actual image path)
+Image(filename="runs/detect/predict/bp_262118_4_174545_4_19_jpg.rf.e13b958d6de09b3c22b83af535d6649b.jpg", width=2000)
+
+# Import necessary libraries for image processing and analysis
+import cv2
+from skimage import io
+from skimage.feature import blob_log
+
+# Load image for processing
+pred_img = io.imread("C:\Users\Kishore M\Desktop\Tree enumeration using YOLO\dataest\train")  
+
+# Perform blob detection
+blobs = blob_log(pred_img, max_sigma=30, threshold=0.3)
+
+# Visualize the blobs on the image
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(20,14))
+ax.imshow(pred_img)
+for blob in blobs:
+    y, x, area = blob
+    ax.add_patch(plt.Circle((x, y), area*np.sqrt(2), color='r', fill=False))
+plt.show()
+
+# Export the trained model to TensorFlow.js format
+model = YOLO('/content/runs/detect/train/weights/best.pt')
+model.export(format='tfjs').
