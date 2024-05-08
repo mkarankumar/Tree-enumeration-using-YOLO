@@ -1,5 +1,5 @@
 # install unrar
-# Set home directory
+# Set  directory
 data_set= "C:\Users\Kishore M\Desktop\Tree enumeration using YOLO\dataest\train"
 
 # Import necessary libraries
