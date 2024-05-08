@@ -1,29 +1,32 @@
-
 # Load the test dataset
-test_dataset = "C:\Users\Kishore M\Desktop\Tree enumeration using YOLO\dataest\test"
-test_images = [test_dataset[4]]  # Load test images
+test_dataset = r"C:\Users\Kishore M\Desktop\Tree enumeration using YOLO\dataest\test"
+test_images = [test_dataset[i]] 
 
 # Perform inference on the test dataset
 predictions = []
-for image in test_images:
-    prediction = model.predict(image)
+for image_path in test_images:
+    image = load_image(image_path)  
+    prediction = model.predict(image)  
     predictions.append(prediction)
 
-precision, recall, mAP = calculate_metrics(predictions, test_annotations)
+
+precision, recall, mAP = calculate_metrics(predictions, test_annotations)  
 
 # Print evaluation metrics
 print("Precision:", precision)
 print("Recall:", recall)
 print("mAP:", mAP)
 
+# Import necessary libraries
 import matplotlib.pyplot as plt
 
+# Define a function to plot predictions
 def plot_predictions(images, predictions):
-    for image, prediction in data_set(images, predictions):
+    for image, prediction in zip(images, predictions):
         plt.figure(figsize=(8, 8))
         plt.imshow(image)
         ax = plt.gca()
-        for box in prediction.pred:
+        for box in prediction:  # Assuming prediction is a list of bounding boxes
             x1, y1, x2, y2 = box[:4]
             width = x2 - x1
             height = y2 - y1
@@ -32,5 +35,6 @@ def plot_predictions(images, predictions):
         plt.axis('off')
         plt.show()
 
+#loaded test images and predictions 
+# Call the function to plot predictions
 plot_predictions(test_images, predictions)
-
