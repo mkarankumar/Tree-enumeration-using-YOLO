@@ -1,0 +1,36 @@
+
+# Load the test dataset
+test_dataset = "C:\Users\Kishore M\Desktop\Tree enumeration using YOLO\dataest\test"
+test_images = [test_dataset[4]]  # Load test images
+
+# Perform inference on the test dataset
+predictions = []
+for image in test_images:
+    prediction = model.predict(image)
+    predictions.append(prediction)
+
+precision, recall, mAP = calculate_metrics(predictions, test_annotations)
+
+# Print evaluation metrics
+print("Precision:", precision)
+print("Recall:", recall)
+print("mAP:", mAP)
+
+import matplotlib.pyplot as plt
+
+def plot_predictions(images, predictions):
+    for image, prediction in data_set(images, predictions):
+        plt.figure(figsize=(8, 8))
+        plt.imshow(image)
+        ax = plt.gca()
+        for box in prediction.pred:
+            x1, y1, x2, y2 = box[:4]
+            width = x2 - x1
+            height = y2 - y1
+            rect = plt.Rectangle((x1, y1), width, height, fill=False, color='red')
+            ax.add_patch(rect)
+        plt.axis('off')
+        plt.show()
+
+plot_predictions(test_images, predictions)
+
